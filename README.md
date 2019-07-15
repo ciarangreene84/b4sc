@@ -9,7 +9,7 @@ using Boot4ServiceCollection.Attributes;
 Or add the below to your csproj file
 ```
 <ItemGroup>
-  <AssemblyAttribute Include="Boot4ServiceCollection.EnableBoot4ServiceCollectionAttribute">
+  <AssemblyAttribute Include="Boot4ServiceCollection.Attributes.EnableBoot4ServiceCollectionAttribute">
   </AssemblyAttribute>
 </ItemGroup>
 ```
