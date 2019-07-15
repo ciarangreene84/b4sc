@@ -11,6 +11,7 @@ namespace Boot4ServiceCollection.Tests.Integration.Extensions
         private readonly ILogger _logger;
         private readonly IScopedTestClass _scopedTestClass;
         private readonly ISingletonTestClass _singletonTestClass;
+        private readonly ITransientTestClass _transientTestClass;
         private readonly INotAddedTestClass _notAddedTestClass;
 
         public ServiceCollectionExtensionsTests()
@@ -30,6 +31,7 @@ namespace Boot4ServiceCollection.Tests.Integration.Extensions
             _logger = loggerFactory.CreateLogger<ServiceCollectionExtensionsTests>();
             _scopedTestClass = serviceProvider.GetService<IScopedTestClass>();
             _singletonTestClass = serviceProvider.GetService<ISingletonTestClass>();
+            _transientTestClass = serviceProvider.GetService<ITransientTestClass>();
             _notAddedTestClass = serviceProvider.GetService<INotAddedTestClass>();
         }
 
@@ -47,6 +49,14 @@ namespace Boot4ServiceCollection.Tests.Integration.Extensions
             _logger.LogInformation("SingletonTestClassTest...");
             var result = _singletonTestClass.Method(10, 10);
             Assert.Equal(100, result);
+        }
+
+        [Fact]
+        public void TransientTestClassTest()
+        {
+            _logger.LogInformation("TransientTestClassTest...");
+            var result = _transientTestClass.Method(10, 10);
+            Assert.Equal(1, result);
         }
 
         [Fact]

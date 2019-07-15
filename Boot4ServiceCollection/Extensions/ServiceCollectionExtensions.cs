@@ -49,6 +49,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 case AddSingletonAttribute _:
                     serviceCollection.TryAddSingleton(addAttribute.InterfaceType, exportedType);
                     break;
+                case AddTransientAttribute _:
+                    serviceCollection.TryAddTransient(addAttribute.InterfaceType, exportedType);
+                    break;
             }
         }
     }
