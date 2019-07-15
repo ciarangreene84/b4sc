@@ -15,7 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Boot4ServiceCollection.Test\Boot4ServiceCollection.Test.csproj" />
     <ProjectReference Include="..\Boot4ServiceCollection\Boot4ServiceCollection.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
