@@ -34,6 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection
             foreach (var exportedType in reflectedAssembly.GetExportedTypes())
             {
                 var addAttribute = exportedType.GetCustomAttribute<AddToServiceCollectionAttribute>();
+                if (null == addAttribute) continue;
                 serviceCollection.Add(addAttribute, exportedType);
             }
         }
