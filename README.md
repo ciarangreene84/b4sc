@@ -42,7 +42,7 @@ etc...
 
 I *personally* dislike this.
 
-## *My* Solution
+## Solution
 
 I prefer not to have ServiceCollection extension methods in each implementation library, or to have extension methods written further up the stack by the consumer. I feel both approaches muddy up the code and ruin my day. Instead, the Boot4ServiceCollection introduces a number of class Attributes, specifically AddScopedAttribute, AddSingletonAttribute and AddTransientAttribute which correspond to the serviceCollection.Add...() methods.
 
@@ -99,5 +99,7 @@ The consuming project can then just run (from Boot4ServiceCollection package):
 
 The services.Boot() method in the Boot4ServiceCollection package loops through all of the libraries in the current (or specified) directory, where the assembly has the EnableBoot4ServiceCollectionAttribute. The method then loops through all of the exported types where an AddScopedAttribute, AddSingletonAttribute or AddTransientAttribute has been set on the class and calls the appropriate method on the ServiceCollection.
 
+## Final Notes
 
+This is a very opinionated approach to tidying up side effects which I personally dislike. I personally prefer doing it this way. There are certainly downsides with this approach. This project does not reduce the overall number of lines that need to be written, simply reorganises the placement of those lines which make sense to me. #WorksForMe #NoWarranty
 
