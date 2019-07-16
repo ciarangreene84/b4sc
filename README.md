@@ -65,7 +65,7 @@ Instead of having a ServiceCollection extension method in each implementation li
     
     ...
     
-    [AddScoped(typeof(IDocumentsDbContext))]
+    [AddTransient(typeof(IDocumentsDbContext))]
     public class DocumentsDbContext : IDocumentsDbContext
     {
         ...
