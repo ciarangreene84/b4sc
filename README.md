@@ -101,5 +101,5 @@ The services.Boot() method in the Boot4ServiceCollection package loops through a
 
 ## Final Notes
 
-This is a very opinionated approach to tidying up side effects which I personally dislike. I personally prefer doing it this way. There are certainly downsides with this approach. This project does not reduce the overall number of lines that need to be written, simply reorganises the placement of those lines in a way I prefer. #WorksForMe #NoWarranty
+This is a very opinionated approach to tidying up side effects which I personally dislike. I am aware of alternative IoC containers like AutoFac. I personally prefer doing it this way. There are certainly downsides with this approach. This project does not reduce the overall number of lines that need to be written, simply reorganises the placement of those lines in a way I prefer. #WorksForMe #NoWarranty
 
