@@ -1,6 +1,6 @@
 # Boot 4 Service Collection
 
-A small library to reorganise how classes are added to the ServiceCollection.
+A small library to re-jig how classes are added to the ServiceCollection. This idea is kinda sorta stolen from Java (Spring Framework). 
 
 ## Problem
 
@@ -29,7 +29,7 @@ Writing implementations against interfaces and adding them to the ServiceCollect
     }
 ```
 
-If there are multiple implementation libraries, each one may end up having such an extension method. Then, when using the implementation(s), one might have a chain of calls to the extension methods on the ServiceCollection itself, e.g.
+If there are multiple implementation libraries, each one may end up having such an extension method in each library. Then, when using the implementation(s), one might have a chain of calls to the extension methods on the ServiceCollection itself, e.g.
 
 ```
 ...
@@ -44,7 +44,7 @@ I *personally* dislike this.
 
 ## *My* Solution
 
-I prefer not to have ServiceCollection extension methods in each implementation library, or to have extension methods written further up the stack. I feel both approaches muddy up the code. Instead, the Boot4ServiceCollection introduces a number of class Attributes, specifically AddScopedAttribute, AddSingletonAttribute and AddTransientAttribute which correspond to the serviceCollection.Add...() methods.
+I prefer not to have ServiceCollection extension methods in each implementation library, or to have extension methods written further up the stack by the consumer. I feel both approaches muddy up the code and ruin my day. Instead, the Boot4ServiceCollection introduces a number of class Attributes, specifically AddScopedAttribute, AddSingletonAttribute and AddTransientAttribute which correspond to the serviceCollection.Add...() methods.
 
 Instead of having a ServiceCollection extension method in each implementation library, an appropriate attribute (From Boot4ServiceCollection.Attributes package) can be added to each *class*, e.g.
 
@@ -97,7 +97,7 @@ The consuming project can then just run (from Boot4ServiceCollection package):
 
 ## How It Works
 
-The services.Boot() method in the Boot4ServiceCollection package loops through all of the libraries in the current directory, where the assembly has the EnableBoot4ServiceCollectionAttribute. The method then loops through all of the exported types where an AddScopedAttribute, AddSingletonAttribute or AddTransientAttribute has been set on the class and calls the appropriate method on the ServiceCollection.
+The services.Boot() method in the Boot4ServiceCollection package loops through all of the libraries in the current (or specified) directory, where the assembly has the EnableBoot4ServiceCollectionAttribute. The method then loops through all of the exported types where an AddScopedAttribute, AddSingletonAttribute or AddTransientAttribute has been set on the class and calls the appropriate method on the ServiceCollection.
 
 
 
