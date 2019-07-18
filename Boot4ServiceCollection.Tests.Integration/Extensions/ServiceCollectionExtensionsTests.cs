@@ -65,5 +65,21 @@ namespace Boot4ServiceCollection.Tests.Integration.Extensions
             _logger.LogInformation("NotAddedTestClassTest...");
             Assert.Null(_notAddedTestClass);
         }
+
+        [Fact]
+        public void RequireEnableBoot4ServiceCollectionAttributeFalseTest()
+        {
+            _logger.LogInformation("RequireEnableBoot4ServiceCollectionAttributeFalseTest...");
+            var services = new ServiceCollection();
+            services.Boot(requireEnableBoot4ServiceCollectionAttribute: false);
+        }
+
+        [Fact]
+        public void RequireEnableBoot4ServiceCollectionAttributeTrueTest()
+        {
+            _logger.LogInformation("RequireEnableBoot4ServiceCollectionAttributeTrueTest...");
+            var services = new ServiceCollection();
+            services.Boot(requireEnableBoot4ServiceCollectionAttribute: true);
+        }
     }
 }
