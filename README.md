@@ -3,6 +3,15 @@ Attribute-based injection for Service Collection
 
 A small library to re-jig how classes are added to the ServiceCollection. This idea is kinda sorta stolen from Java (Spring Framework). 
 
+*Note 2019-07-18*: Version 1.0.7; I have introduced "bool requireEnableBoot4ServiceCollectionAttribute = true" to the Boot() method.
+Calling
+```
+  ...
+  services.Boot(requireEnableBoot4ServiceCollectionAttribute: false);
+  etc...
+```
+**Setting the value to false removes the requirement that the assemblies must have the EnableBoot4ServiceCollectionAttribute set.**
+
 *Note 2019-07-16*: I discovered that AutoMapper introduced attribute-based mapping in their version 8.1.0 release in April 2019 (https://github.com/AutoMapper/AutoMapper/releases/tag/v8.1.0). B4SC is essentially attribute-based injection. So... wave of the future?
 
 ## Problem
