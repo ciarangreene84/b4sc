@@ -4,7 +4,6 @@ Attribute-based injection for Service Collection
 A small library to re-jig how classes are added to the ServiceCollection. This idea is kinda sorta stolen from Java (Spring Framework). 
 
 *Note 2019-07-18*: Version 1.0.7; I have introduced "bool requireEnableBoot4ServiceCollectionAttribute = true" to the Boot() method.
-Calling
 ```
   ...
   services.Boot(requireEnableBoot4ServiceCollectionAttribute: false);
