@@ -10,9 +10,9 @@
     <RepositoryUrl>https://github.com/ciarangreene84/b4sc</RepositoryUrl>
     <PackageTags>ServiceCollection, Dependency Injection, Boot</PackageTags>
     <PackageReleaseNotes />
-    <AssemblyVersion>1.0.6.0</AssemblyVersion>
-    <FileVersion>1.0.6.0</FileVersion>
-    <Version>1.0.6</Version>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+    <FileVersion>1.0.7.0</FileVersion>
+    <Version>1.0.7</Version>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/ciarangreene84/b4sc</PackageProjectUrl>
   </PropertyGroup>

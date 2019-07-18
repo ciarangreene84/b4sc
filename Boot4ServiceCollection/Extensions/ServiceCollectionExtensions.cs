@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             foreach (var assemblyPath in Directory.GetFiles(path, searchPattern))
             {
-                serviceCollection.AddFromAssembly(assemblyPath);
+                serviceCollection.AddFromAssembly(assemblyPath, requireEnableBoot4ServiceCollectionAttribute);
             }
 
             return serviceCollection;
