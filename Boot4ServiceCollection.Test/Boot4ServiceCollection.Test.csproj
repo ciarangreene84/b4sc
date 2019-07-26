@@ -8,9 +8,4 @@
     <ProjectReference Include="..\Boot4ServiceCollection.Attributes\Boot4ServiceCollection.Attributes.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AssemblyAttribute Include="Boot4ServiceCollection.Attributes.EnableBoot4ServiceCollectionAttribute">
-    </AssemblyAttribute>
-  </ItemGroup>
-
 </Project>
