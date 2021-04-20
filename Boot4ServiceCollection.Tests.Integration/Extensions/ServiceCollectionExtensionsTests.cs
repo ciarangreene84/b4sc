@@ -13,12 +13,17 @@ namespace Boot4ServiceCollection.Tests.Integration.Extensions
 
         public ServiceCollectionExtensionsTests()
         {
-            var services = new ServiceCollection().AddLogging();
+            var services = new ServiceCollection();
+            //configure NLog            
+            NLog.LogManager.LoadConfiguration("nlog.config");
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddNLog();
+            });
             var serviceProvider = services.BuildServiceProvider();
 
-            //configure NLog
-            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>().AddNLog();
-            NLog.LogManager.LoadConfiguration("nlog.config");
+            
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             _logger = loggerFactory.CreateLogger<ServiceCollectionExtensionsTests>();
         }
 
