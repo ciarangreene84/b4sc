@@ -3,14 +3,6 @@ Attribute-based injection for Service Collection
 
 A small library to re-jig how classes are added to the ServiceCollection. This idea is kinda sorta stolen from Java (Spring Framework). 
 
-*Note 2019-07-18*: Version 1.0.7; I have introduced "bool requireEnableBoot4ServiceCollectionAttribute = true" to the Boot() method.
-```
-  ...
-  services.Boot(requireEnableBoot4ServiceCollectionAttribute: false);
-  etc...
-```
-**Setting the value to false removes the requirement that the assemblies must have the EnableBoot4ServiceCollectionAttribute set.**
-
 *Note 2019-07-16*: I discovered that AutoMapper introduced attribute-based mapping in their version 8.1.0 release in April 2019 (https://github.com/AutoMapper/AutoMapper/releases/tag/v8.1.0). B4SC is essentially attribute-based injection. So... wave of the future?
 
 ## Problem
@@ -86,19 +78,6 @@ Instead of having a ServiceCollection extension method in each implementation li
 
 ### Consuming
 
-The implementation library itself must also have an attribute set, either in a cs file:
-```
-using Boot4ServiceCollection.Attributes;
-[assembly: EnableBoot4ServiceCollection()]
-```
-Or by adding the below to the csproj file:
-```
-<ItemGroup>
-  <AssemblyAttribute Include="Boot4ServiceCollection.Attributes.EnableBoot4ServiceCollectionAttribute">
-  </AssemblyAttribute>
-</ItemGroup>
-```
-
 The consuming project can then just run (from Boot4ServiceCollection package):
 ```
   ...
@@ -108,9 +87,9 @@ The consuming project can then just run (from Boot4ServiceCollection package):
 
 ## How It Works
 
-The services.Boot() method in the Boot4ServiceCollection package loops through all of the libraries in the current (or specified) directory, where the assembly has the EnableBoot4ServiceCollectionAttribute. The method then loops through all of the exported types where an AddScopedAttribute, AddSingletonAttribute or AddTransientAttribute has been set on the class and calls the appropriate method on the ServiceCollection.
+The services.Boot() method in the Boot4ServiceCollection package loops through all of the libraries in the current (or specified) directory. The method then loops through all of the exported types where an AddScopedAttribute, AddSingletonAttribute or AddTransientAttribute has been set on the class and calls the appropriate method on the ServiceCollection.
 
 ## Final Notes
 
-This is a very opinionated approach to tidying up side effects which I personally dislike. I am aware of alternative IoC containers like AutoFac. I personally prefer doing it this way. There are certainly downsides with this approach. This project does not reduce the overall number of lines that need to be written, simply reorganises the placement of those lines in a way I prefer. #WorksForMe #NoWarranty
+This is an opinionated approach to tidying up side effects which I personally dislike. I am aware of alternative IoC containers like AutoFac. I personally prefer doing it this way. There are certainly downsides with this approach. This project does not reduce the overall number of lines that need to be written, simply reorganises the placement of those lines in a way I prefer. #WorksForMe #NoWarranty
 
