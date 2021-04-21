@@ -1,55 +1,41 @@
-﻿using System;
-using Boot4ServiceCollection.Attributes;
-using System.IO;
-using System.Reflection;
+﻿using Boot4ServiceCollection.Attributes;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// Boots attribute-based injection classes.
-        /// By default, loops through all the *.dll files in the current directory. (Path and search pattern can be altered)
-        /// By default, each assembly must have the EnableBoot4ServiceCollectionAttribute. This can be disabled.
-        /// </summary>
-        /// <param name="serviceCollection">Extension target</param>
-        /// <param name="path">Path containing the assemblies to process. Defaults to Directory.GetCurrentDirectory()</param>
-        /// <param name="searchPattern">Search pattern for assemblies to process. Defaults to "*.dll"</param>
-        /// <param name="requireEnableBoot4ServiceCollectionAttribute">Determines whether to check for the EnableBoot4ServiceCollectionAttribute in each assembly. Defaults to true</param>
-        /// <returns>Extension target</returns>
-        public static IServiceCollection Boot(this IServiceCollection serviceCollection, string path = null, string searchPattern = "*.dll", bool requireEnableBoot4ServiceCollectionAttribute = true)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                path = Directory.GetCurrentDirectory();
-            }
+        public static IServiceCollection Boot(this IServiceCollection serviceCollection) =>
+            Boot(serviceCollection, AppDomain.CurrentDomain.GetAssemblies());
 
-            foreach (var assemblyPath in Directory.GetFiles(path, searchPattern))
+        public static IServiceCollection Boot(this IServiceCollection serviceCollection, IEnumerable<Assembly> assembliesToScan)
+        {
+            var attributedTypes = assembliesToScan
+                .Where(a => !a.IsDynamic && a.GetName().Name != nameof(Boot4ServiceCollection) && a.GetName().Name != nameof(Boot4ServiceCollection.Attributes))
+                .Distinct()
+                .SelectMany(a => a.GetExportedTypes().Where(type => null != type.GetCustomAttribute<AddToServiceCollectionAttribute>()));
+
+            foreach (var attributedType in attributedTypes)
             {
-                serviceCollection.AddFromAssembly(assemblyPath, requireEnableBoot4ServiceCollectionAttribute);
+                AddAttributedType(serviceCollection, attributedType);
             }
 
             return serviceCollection;
         }
-
-        private static void AddFromAssembly(this IServiceCollection serviceCollection, string assemblyPath, bool requireEnableBoot4ServiceCollectionAttribute = true)
+        
+        private static void AddAttributedType(this IServiceCollection serviceCollection, Type attributedType)
         {
-            var reflectedAssembly = Assembly.LoadFrom(assemblyPath);
-
-            var enableBoot4ServiceCollection = reflectedAssembly.GetCustomAttribute<EnableBoot4ServiceCollectionAttribute>();
-            if (requireEnableBoot4ServiceCollectionAttribute && enableBoot4ServiceCollection == null) return; 
-
-            foreach (var exportedType in reflectedAssembly.GetExportedTypes())
-            {
-                var addAttribute = exportedType.GetCustomAttribute<AddToServiceCollectionAttribute>();
-                if (null == addAttribute) continue;
-                serviceCollection.Add(addAttribute, exportedType);
-            }
+            var addAttribute = attributedType.GetCustomAttribute<AddToServiceCollectionAttribute>();
+            if (null == addAttribute) return;
+            serviceCollection.TryAdd(addAttribute, attributedType);
         }
 
-        private static void Add(this IServiceCollection serviceCollection, AddToServiceCollectionAttribute addAttribute, Type exportedType)
+        private static void TryAdd(this IServiceCollection serviceCollection, AddToServiceCollectionAttribute addAttribute, Type exportedType)
         {
             switch (addAttribute)
             {
